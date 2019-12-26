@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Hello from './Hello';
 import './Assets/style.css';
-import quizService from './quizService/index.js';
+import quizService from './quizService';
+import QuestionBox from './components/questionbox';
 
 class App extends Component {
   constructor() {
@@ -27,7 +27,11 @@ class App extends Component {
       <div className="container">
       <div className="title">
        QuizBee</div>
-        {this.state.questionBank.length>0 && this.state.questionBank.map(({ques,ans,cor,id})=> <h4>{ques}</h4>)}
+       
+        {this.state.questionBank.map(({question,answers,correct,questionId})=> (<QuestionBox 
+        question={question}
+        opt={answers} 
+        key={questionId}/>))}
        
       </div>
     );
