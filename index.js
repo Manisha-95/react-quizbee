@@ -3,12 +3,15 @@ import { render } from 'react-dom';
 import './Assets/style.css';
 import quizService from './quizService';
 import QuestionBox from './components/questionbox';
+import Result from './components/result';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      questionBank: []
+      questionBank: [],
+      score:0,
+      response:0
     };
   }
     getQuestions = () => {
@@ -16,6 +19,19 @@ class App extends Component {
         this.setState({questionBank:question})
       })
     } 
+computeAnswer = (answer,correctAnswer )=> {
+  if(answer === correctAnswer){
+    this.setState({score: this.state.score + 1})
+  }
+  this.setState({response: this.state.response < 5 ? this.state.response + 1: 5})
+
+}
+playAgain = () =>{
+   this.getQuestions();
+  this.setState({score:0,
+      response:0})
+     
+}
  
   componentDidMount()
   {
@@ -31,9 +47,10 @@ class App extends Component {
         {this.state.questionBank.map(({question,answers,correct,questionId})=> (<QuestionBox 
         question={question}
         opt={answers} 
-        key={questionId}/>))}
+        key={questionId}
+        selected={answer => this.computeAnswer(answer,correct)}/>))}
        
-      </div>
+       {this.state.response === 5 ? (<Result score={this.state.score} playAgain={this.playAgain} />) : null}</div>
     );
   }
 }
