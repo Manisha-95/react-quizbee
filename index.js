@@ -23,7 +23,7 @@ computeAnswer = (answer,correctAnswer )=> {
   if(answer === correctAnswer){
     this.setState({score: this.state.score + 1})
   }
-  this.setState({response: this.state.response < 5 ? this.state.response + 1: 5})
+  this.setState({response: this.state.response < 5 ? this.state.response + 1 : 5})
 
 }
 playAgain = () =>{
@@ -44,7 +44,9 @@ playAgain = () =>{
       <div className="title">
        QuizBee</div>
        
-        {this.state.questionBank.map(({question,answers,correct,questionId})=> (<QuestionBox 
+        {this.state.questionBank.length >0 &&
+        this.state.response < 5 &&          
+          this.state.questionBank.map(({question,answers,correct,questionId})=> (<QuestionBox 
         question={question}
         opt={answers} 
         key={questionId}
